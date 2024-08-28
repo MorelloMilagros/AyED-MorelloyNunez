@@ -1,2 +1,3 @@
-# repositorio-practica-inicial
-Repositorio inicial para el desarrollo de los TPs de la asignatura
+## Códigos de clases de práctica
+
+En esta carpeta se deben ir subiendo los códigos provistos por el docente en las clases de práctica.
