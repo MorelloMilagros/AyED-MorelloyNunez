@@ -1,23 +1,29 @@
-from modules.algoritmos import ord_burbuja, quicksort
+from modules.algoritmos import ord_burbuja, quicksort, radix_sort
 from modules.lista_al import generar_lista_aleatoria
 
 #Se generan listas aleatorias con otra funcion
 
-lista_b = generar_lista_aleatoria()
-lista_q = generar_lista_aleatoria()
-lista_r = generar_lista_aleatoria()
+lista = generar_lista_aleatoria()
 
-print("Lista burbuja: ", lista_b)
-print("Lista quicksort: ", lista_q)
-#print("Lista radix: ", lista_r)
+print("Lista original: ", lista)
 
 #Se ordena con el algoritmo de burbuja.
+
+lista_b = lista.copy()
 lista_b = ord_burbuja(lista_b)
 
 print(lista_b)
 
 #Se ordena con el algoritmo quicksort.
 
+lista_q = lista.copy()
 lista_q = quicksort(lista_q)
 
 print(lista_q)
+
+#Se ordena con el algoritmo radixsort.
+
+lista_r = lista.copy()
+lista_r = radix_sort(lista_r)
+
+print(lista_r)

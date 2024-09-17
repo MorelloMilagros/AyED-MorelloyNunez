@@ -24,3 +24,27 @@ def quicksort(lista2):
                                                              # de manera que se realiza el proceso anterior una y otra vez 
                                                              # con las sublistas hasta que las mismas esten ordenadas, 
                                                              # eligiendo nuevos pivotes y repitiendo el camino las veces necesarias
+# Algoritmo Radixsort
+
+def radix_sort(lista):
+    # Encontrar el número más grande para saber el número de dígitos
+    max_num = max(lista)
+    exp = 1  # Comienza con el dígito menos significativo
+
+    # Continuar hasta que pasemos por todos los dígitos del número más grande
+    while max_num // exp > 0:
+        # Crear listas de buckets para cada dígito (0 a 9)
+        buckets = [[] for _ in range(10)]
+
+        # Colocar los elementos en los buckets según el dígito actual
+        for num in lista:
+            index = (num // exp) % 10
+            buckets[index].append(num)
+
+        # Combinar todos los buckets en una lista ordenada
+        lista = [num for bucket in buckets for num in bucket]
+
+        # Mover al siguiente dígito
+        exp *= 10
+
+    return lista

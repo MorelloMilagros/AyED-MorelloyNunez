@@ -1,10 +1,6 @@
 import random
 
 def generar_lista_aleatoria():
-    cant_numeros = random.randint(1, 100)  # Cantidad aleatoria de números en la lista
-    lista = [random.randint(0, 500) for _ in range(cant_numeros)]
+    cant_numeros = random.randint(500, 1000)  # Generar un número aleatorio entre 500 y 1000
+    lista = [random.randint(10000, 99999) for _ in range(cant_numeros)]
     return lista
-
-def obtener_tamaño_de_lista(lista):
-    n = len(lista)
-    return n
