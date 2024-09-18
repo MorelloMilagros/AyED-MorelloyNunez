@@ -11,7 +11,10 @@ class ListaDobleEnlazada:
         self.tamanio = 0
 
     def esta_vacia(self):
-        return self.tamanio == 0
+        if self.tamanio == 0:
+            return True
+        else:
+            return False
 
     def __len__(self):
         return self.tamanio
@@ -117,7 +120,7 @@ class ListaDobleEnlazada:
     def concatenar(self, otra_lista):
         if otra_lista.esta_vacia():
             return
-        otra_lista_copia = otra_lista.copiar()  # Copia la lista para no modificar la original
+        otra_lista_copia = otra_lista.copiar() 
         if self.esta_vacia():
             self.cabeza = otra_lista_copia.cabeza
             self.cola = otra_lista_copia.cola
