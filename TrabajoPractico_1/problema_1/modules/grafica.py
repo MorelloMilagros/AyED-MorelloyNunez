@@ -7,14 +7,14 @@ from algoritmos import ord_burbuja, quicksort, radix_sort
 
 # Función para medir el tiempo de ejecución de cada algoritmo
 def medir_tiempos():
-    tamaños = range(1, 1001)
+    tams = range(1, 1001)
     tiempos_burbuja = []
     tiempos_quicksort = []
     tiempos_radix = []
     tiempos_sorted = []
 
-    for tamaño in tamaños:
-        lista = [random.randint(10000, 99999) for _ in range(tamaño)]
+    for tam in tams:
+        lista = [random.randint(10000, 99999) for _ in range(tam)]
 
         # Medir tiempo para burbuja
         inicio = time.time()
@@ -36,17 +36,16 @@ def medir_tiempos():
         sorted(lista.copy())
         tiempos_sorted.append(time.time() - inicio)
 
-    # Graficar los tiempos
+    # Grafica
     plt.figure(figsize=(10, 6))
-    plt.plot(tamaños, tiempos_burbuja, label='Burbuja')
-    plt.plot(tamaños, tiempos_quicksort, label='Quicksort')
-    plt.plot(tamaños, tiempos_radix, label='Radix Sort')
-    plt.plot(tamaños, tiempos_sorted, label='sorted')
+    plt.plot(tams, tiempos_burbuja, label='Burbuja')
+    plt.plot(tams, tiempos_quicksort, label='Quicksort')
+    plt.plot(tams, tiempos_radix, label='Radix Sort')
+    plt.plot(tams, tiempos_sorted, label='sorted')
     plt.xlabel('Tamaño de la lista')
     plt.ylabel('Tiempo de ejecución (s)')
     plt.title('Comparación de tiempos de ordenamiento')
     plt.legend()
     plt.show()
 
-# Llamar a la función para medir y graficar
 medir_tiempos()
