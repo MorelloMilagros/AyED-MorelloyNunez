@@ -1,13 +1,3 @@
-"""import sys
-import os
-
-# Agrega la carpeta padre al sys.path para que encuentre el módulo
-sys.path.append(os.path.join(os.path.dirname(__file__), 'modules'))
-
-from modules.clases import Juego
-
-# El resto del código..."""
-
 from modules.clases import Juego
 
 # Inicializar el juego
