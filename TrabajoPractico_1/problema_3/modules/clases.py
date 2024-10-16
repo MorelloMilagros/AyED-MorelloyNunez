@@ -1,4 +1,5 @@
 import random
+from modules.lista_doble_enlazada import ListaDobleEnlazada
 
 class Carta:
     valores = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
@@ -14,95 +15,37 @@ class Carta:
     def obtener_valor(self):
         return Carta.valores.index(self.valor)
 
-class Nodo:
-    def __init__(self, dato):
-        self.dato = dato
-        self.siguiente = None
-        self.anterior = None
-
 class Mazo:
     def __init__(self):
-        self.cabeza = None
-        self.cola = None
-        self.tamanio = 0
+        self.cartas = ListaDobleEnlazada()  # Usamos la lista doblemente enlazada para las cartas
         self.crear_mazo()
-        self.mazo = self
 
     def crear_mazo(self):
         cartas = [Carta(valor, palo) for valor in Carta.valores for palo in Carta.palos]
         random.shuffle(cartas)
         for carta in cartas:
-            self.agregar_al_final(carta)
-
-    def esta_vacia(self):
-        return self.tamanio == 0
-
-    def agregar_al_final(self, carta):
-        nuevo_nodo = Nodo(carta)
-        if self.esta_vacia():
-            self.cabeza = self.cola = nuevo_nodo
-        else:
-            nuevo_nodo.anterior = self.cola
-            self.cola.siguiente = nuevo_nodo
-            self.cola = nuevo_nodo
-        self.tamanio += 1
-
-    def agregar_al_inicio(self, carta):
-        nuevo_nodo = Nodo(carta)
-        if self.esta_vacia():
-            self.cabeza = self.cola = nuevo_nodo
-        else:
-            nuevo_nodo.siguiente = self.cabeza
-            self.cabeza.anterior = nuevo_nodo
-            self.cabeza = nuevo_nodo
-        self.tamanio += 1
-
-    def extraer_primero(self):
-        if self.esta_vacia():
-            raise DequeEmptyError("El mazo no tiene más cartas")
-        carta = self.cabeza.dato
-        self.cabeza = self.cabeza.siguiente
-        if self.cabeza:
-            self.cabeza.anterior = None
-        else:
-            self.cola = None
-        self.tamanio -= 1
-        return carta
+            self.cartas.agregar_al_final(carta)  # Usamos el método de la LDE para agregar cartas al final
 
     def repartir(self):
-        mitad = self.tamanio // 2
-        mazo1 = []
-        mazo2 = []
-        actual = self.cabeza
-        for i in range(self.tamanio):
-            if i < mitad:
-                mazo1.append(actual.dato)
-            else:
-                mazo2.append(actual.dato)
-            actual = actual.siguiente
+        mitad = len(self.cartas) // 2
+        mazo1 = ListaDobleEnlazada()
+        mazo2 = ListaDobleEnlazada()
+
+        for i in range(mitad):
+            mazo1.agregar_al_final(self.cartas.extraer(0))  # Extraemos cartas de la LDE y las agregamos a mazo1
+        for i in range(mitad, len(self.cartas)):
+            mazo2.agregar_al_final(self.cartas.extraer(0))  # Extraemos el resto para mazo2
+
         return mazo1, mazo2
 
-    # Método __len__ para devolver el tamaño del mazo
-    def __len__(self):
-        return self.tamanio
-
-    # Métodos necesarios para el test
     def poner_carta_arriba(self, carta):
-        """Poner una carta en la parte superior (al inicio) del mazo."""
-        self.agregar_al_inicio(carta)
+        self.cartas.agregar_al_inicio(carta)  # Usamos el método de la LDE para agregar al inicio
 
     def poner_carta_abajo(self, carta):
-        """Poner una carta en la parte inferior (al final) del mazo."""
-        self.agregar_al_final(carta)
+        self.cartas.agregar_al_final(carta)  # Usamos el método de la LDE para agregar al final
 
-    def sacar_carta_arriba(self, mostrar=False):
-        """Sacar una carta de la parte superior (al inicio) del mazo."""
-        if self.esta_vacia():
-            raise DequeEmptyError("El mazo no tiene más cartas")
-        carta = self.extraer_primero()
-        return carta
-
-    
+    def sacar_carta_arriba(self):
+        return self.cartas.extraer(0)  # Usamos el método de la LDE para extraer desde el inicio
 
 class DequeEmptyError(Exception):
     """Excepción lanzada cuando se intenta extraer de un deque vacío."""
@@ -111,15 +54,16 @@ class DequeEmptyError(Exception):
 class Jugador:
     def __init__(self, nombre):
         self.nombre = nombre
-        self.cartas = []
+        self.cartas = ListaDobleEnlazada()  # Usar ListaDobleEnlazada para las cartas del jugador
 
     def robar_carta(self):
-        if not self.cartas:
+        if len(self.cartas) == 0:
             raise DequeEmptyError("El jugador no tiene más cartas") 
-        return self.cartas.pop(0)
+        return self.cartas.extraer(0)  # Usar extraer para sacar la primera carta
 
     def agregar_cartas(self, nuevas_cartas):
-        self.cartas.extend(nuevas_cartas)
+        for carta in nuevas_cartas:
+            self.cartas.agregar_al_final(carta)  # Usar agregar al final para las nuevas cartas
 
     def tiene_cartas(self):
         return len(self.cartas) > 0
@@ -128,7 +72,7 @@ class Juego:
     N_TURNOS = 10000
 
     def __init__(self):
-        self.mazo = Mazo()
+        self.mazo = Mazo()  # Usamos la nueva clase Mazo con LDE
         cartas_j1, cartas_j2 = self.mazo.repartir()
 
         self.jugador_1 = Jugador("Jugador 1")
@@ -137,7 +81,7 @@ class Juego:
         self.jugador_2 = Jugador("Jugador 2")
         self.jugador_2.agregar_cartas(cartas_j2)
 
-        self.cartas_en_la_mesa = []
+        self.cartas_en_la_mesa = ListaDobleEnlazada()
         self.turno = 0
 
     def comparar_cartas(self, carta_1, carta_2):
@@ -164,25 +108,25 @@ class Juego:
         carta_1 = self.jugador_1.robar_carta()
         carta_2 = self.jugador_2.robar_carta()
 
-        self.cartas_en_la_mesa.append(carta_1)
-        self.cartas_en_la_mesa.append(carta_2)
+        self.cartas_en_la_mesa.agregar_al_final(carta_1)
+        self.cartas_en_la_mesa.agregar_al_final(carta_2)
 
         resultado = self.comparar_cartas(carta_1, carta_2)
 
         if resultado == 1:
-            self.jugador_1.agregar_cartas(self.cartas_en_la_mesa)
-            self.cartas_en_la_mesa = []
+            while len(self.cartas_en_la_mesa) > 0:
+                self.jugador_1.agregar_cartas([self.cartas_en_la_mesa.extraer(0)])
         elif resultado == 2:
-            self.jugador_2.agregar_cartas(self.cartas_en_la_mesa)
-            self.cartas_en_la_mesa = []
+            while len(self.cartas_en_la_mesa) > 0:
+                self.jugador_2.agregar_cartas([self.cartas_en_la_mesa.extraer(0)])
         else:
             resultado_guerra = self.guerra()
             if resultado_guerra == 1:
-                self.jugador_1.agregar_cartas(self.cartas_en_la_mesa)
+                while len(self.cartas_en_la_mesa) > 0:
+                    self.jugador_1.agregar_cartas([self.cartas_en_la_mesa.extraer(0)])
             else:
-                self.jugador_2.agregar_cartas(self.cartas_en_la_mesa)
-
-            self.cartas_en_la_mesa = []
+                while len(self.cartas_en_la_mesa) > 0:
+                    self.jugador_2.agregar_cartas([self.cartas_en_la_mesa.extraer(0)])
 
     def jugar(self):
         while self.jugador_1.tiene_cartas() and self.jugador_2.tiene_cartas() and self.turno < self.N_TURNOS:
