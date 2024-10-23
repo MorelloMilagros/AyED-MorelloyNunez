@@ -1,4 +1,4 @@
-from modules.clases import Temperaturas_DB
+from modules.temp import Temperaturas_DB
 
 def menu():
     print("\nMenú de opciones:")
