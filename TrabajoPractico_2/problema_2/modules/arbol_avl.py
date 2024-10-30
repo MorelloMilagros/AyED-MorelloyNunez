@@ -1,5 +1,3 @@
-
-
 class NodoAVL:
     def __init__(self, fecha, temperatura):
         self.fecha = fecha

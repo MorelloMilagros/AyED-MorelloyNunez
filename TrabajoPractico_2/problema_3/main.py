@@ -1,34 +1,23 @@
-from modules.clases import leer_archivo, mst_prim
+# main.py
+from modules.clases import leer_archivo, mst_prim  # Importar las funciones necesarias
 
-# Especificar la ruta del archivo
-ruta_archivo = "C:\\Users\\gjmor\\Downloads\\aldeas.txt"
+arch = "data/aldeas.txt"
 
-# Leer las aldeas desde el archivo
-try:
-    aldeas = leer_archivo(ruta_archivo)
-except Exception as e:
-    print(f"Error al leer el archivo: {e}")
-    exit()
+def mostrar_resultados(arbol, aldeas):
+    # Ordenar aldeas alfabéticamente
+    nombres_aldeas = sorted(aldeas.keys())
+    print("Lista de Aldeas en orden alfabético:")
+    for nombre in nombres_aldeas:
+        print(nombre)
 
-# Verificar que la aldea "Peligros" esté en los datos
-aldea_inicio = aldeas.get("Peligros")
-if not aldea_inicio:
-    print("La aldea 'Peligros' no existe en los datos.")
-    exit()
+    print("\nRutas de envío de noticias:")
+    for origen, destino, distancia in arbol.conexiones:
+        print(f"Desde {origen} se envía a {destino} con distancia {distancia} leguas.")
 
-# Calcular el árbol de expansión mínima
-mst, total_distancia = mst_prim(aldeas, aldea_inicio)
+    print(f"\nSuma total de distancias recorridas: {arbol.total_distancia} leguas.")
 
-# Mostrar la lista de aldeas en orden alfabético
-aldeas_ordenadas = sorted(aldeas.keys())
-print("Lista de aldeas en orden alfabético:")
-for aldea in aldeas_ordenadas:
-    print(aldea)
-
-# Mostrar las conexiones eficientes entre aldeas
-print("\nConexiones eficientes entre aldeas:")
-for aldea1, aldea2, distancia in mst:
-    print(f"{aldea1} envía noticia a {aldea2} (distancia: {distancia} leguas)")
-
-# Mostrar la distancia total recorrida por las palomas
-print(f"\nDistancia total recorrida por las palomas: {total_distancia} leguas")
+# Ejecución del código principal
+if __name__ == "__main__":
+    aldeas = leer_archivo(arch)  # Asegúrate de especificar la ruta correcta
+    arbol = mst_prim(aldeas, aldeas['Peligros'])  # Peligros como aldea de inicio
+    mostrar_resultados(arbol, aldeas)
