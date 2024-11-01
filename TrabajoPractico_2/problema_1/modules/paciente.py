@@ -36,8 +36,3 @@ class Paciente:
         cad += str(self.__riesgo) + '-' + self.__descripcion
         return cad
         
-    # Método especial para comparar pacientes por riesgo
-    def __lt__(self, otro):
-        return self.get_riesgo() < otro.get_riesgo()
-        
-        
