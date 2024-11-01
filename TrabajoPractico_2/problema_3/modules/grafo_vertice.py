@@ -1,27 +1,3 @@
-class Aldea:
-    def __init__(self, nombre):
-        self.__nombre = nombre
-        self.__vecinas = []
-        self.__predecesor = None
-
-    def agregar_vecina(self, vecina, distancia):
-        self.__vecinas.append((distancia, vecina))
-
-    def obtener_nombre(self):
-        return self.__nombre
-
-    def obtener_vecinas(self):
-        return self.__vecinas
-
-    def establecer_predecesor(self, predecesor):
-        self.__predecesor = predecesor
-
-    def obtener_predecesor(self):
-        return self.__predecesor
-
-    def __lt__(self, other):
-        return self.__nombre < other.obtener_nombre()
-
 class Vertice:
     def __init__(self, clave):
         self.__id = clave
@@ -41,13 +17,15 @@ class Vertice:
     def obtener_ponderacion(self, vecino):
         return self.__conectadoA[vecino]
 
-    def establecer_distancia(self, distancia):
+    # Métodos para manejar la distancia
+    def asignar_distancia(self, distancia):
         self.__distancia = distancia
 
     def obtener_distancia(self):
         return self.__distancia
 
-    def establecer_predecesor(self, predecesor):
+    # Métodos para manejar el predecesor
+    def asignar_predecesor(self, predecesor):
         self.__predecesor = predecesor
 
     def obtener_predecesor(self):

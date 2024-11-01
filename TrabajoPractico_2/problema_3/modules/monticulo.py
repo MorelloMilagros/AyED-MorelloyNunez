@@ -19,7 +19,7 @@ class MonticuloBinario:
     def tam(self, value):
         self.__tam = value
 
-    def infiltArriba(self, i):
+    def __infiltArriba(self, i):
         while i // 2 > 0:
             if self.lis_mon[i] < self.lis_mon[i // 2]:
                 # Intercambia el valor con el padre si es menor
@@ -31,11 +31,11 @@ class MonticuloBinario:
     def insertar(self, k):
         self.lis_mon.append(k)  # Añade el nuevo elemento al final
         self.tam += 1
-        self.infiltArriba(self.tam)  # Ajusta el montículo hacia arriba
+        self.__infiltArriba(self.tam)  # Ajusta el montículo hacia arriba
 
-    def infiltAbajo(self, i):
+    def __infiltAbajo(self, i):
         while (i * 2) <= self.tam:
-            hm = self.hijoMin(i)  # Encuentra el hijo mínimo
+            hm = self.__hijoMin(i)  # Encuentra el hijo mínimo
             if self.lis_mon[i] > self.lis_mon[hm]:
                 # Intercambia el valor con el hijo mínimo si es mayor
                 tmp = self.lis_mon[i]
@@ -43,7 +43,7 @@ class MonticuloBinario:
                 self.lis_mon[hm] = tmp
             i = hm  # Mueve el índice al hijo mínimo
 
-    def hijoMin(self, i):
+    def __hijoMin(self, i):
         if i * 2 + 1 > self.tam:
             return i * 2
         else:
@@ -57,7 +57,7 @@ class MonticuloBinario:
         self.lis_mon[1] = self.lis_mon[self.tam]
         self.tam -= 1
         self.lis_mon.pop()
-        self.infiltAbajo(1)  # Ajusta el montículo hacia abajo
+        self.__infiltAbajo(1)  # Ajusta el montículo hacia abajo
         return valorSacado
 
     def construirMonticulo(self, unaLista):
@@ -65,5 +65,5 @@ class MonticuloBinario:
         self.tam = len(unaLista)
         self.lis_mon = [0] + unaLista[:]
         while i > 0:
-            self.infiltAbajo(i)
+            self.__infiltAbajo(i)
             i -= 1

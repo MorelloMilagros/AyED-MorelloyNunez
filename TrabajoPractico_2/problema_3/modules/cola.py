@@ -1,15 +1,14 @@
-from modules_op2.monticulo import MonticuloBinario
+from modules.monticulo import MonticuloBinario
 
 class ColaPrioridad:
     def __init__(self):
         self.monticulo = MonticuloBinario()  # Utiliza MonticuloBinario para almacenar los elementos
         self.posiciones = {}  # Diccionario para rastrear posiciones de los objetos en el montículo
+        self.elementos = set()
 
     def construirMonticulo(self, lista):
-        # Recibe una lista de tuplas (clave, objeto) y construye el montículo
-        self.monticulo.construirMonticulo(lista)
-        for i, (_, obj) in enumerate(self.monticulo.lis_mon[1:], start=1):
-            self.posiciones[obj] = i  # Almacena la posición del objeto
+        self.monticulo.construirMonticulo(lista)  # Llama al método de construcción en MonticuloBinario
+        self.elementos = {v for _, v in lista}
 
     def insertar(self, clave, obj):
         # Inserta una tupla (clave, objeto) en el montículo y actualiza las posiciones
@@ -17,10 +16,9 @@ class ColaPrioridad:
         self.posiciones[obj] = self.monticulo.tam
 
     def eliminarMin(self):
-        # Extrae el elemento con la mínima clave y actualiza las posiciones
-        clave, obj = self.monticulo.eliminarMin()
-        self.posiciones.pop(obj, None)
-        return clave, obj
+        min_elemento = self.monticulo.eliminarMin()  # Obtener el mínimo del MonticuloBinario
+        self.elementos.remove(min_elemento[1])  # Remueve el vértice del conjunto
+        return min_elemento
 
     def decrementarClave(self, obj, nueva_clave):
         # Decrementa la clave del objeto y ajusta el montículo
@@ -35,5 +33,4 @@ class ColaPrioridad:
         return self.monticulo.tam == 0
 
     def contiene(self, item):
-        # Si tu montículo es una lista de tuplas, por ejemplo [(distancia, vertice)]
-        return any(vertice == item for _, vertice in self.monticulo)
+        return item in self.elementos
