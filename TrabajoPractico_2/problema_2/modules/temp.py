@@ -10,6 +10,10 @@ class Temperaturas_DB:
     @property
     def arbol(self):
         return self.__arbol
+    
+    @arbol.setter
+    def raiz(self, valor):
+        self.__arbol = valor
 
     @property
     def raiz(self):
@@ -44,6 +48,7 @@ class Temperaturas_DB:
         resultados = []
         self.arbol.inorden_rango(self.raiz, fecha1, fecha2, resultados)
         return max(resultados, key=lambda x: x[1])[1] if resultados else None
+
 
     def min_temp_rango(self, fecha1_str, fecha2_str):
         fecha1 = datetime.strptime(fecha1_str, "%d/%m/%Y")

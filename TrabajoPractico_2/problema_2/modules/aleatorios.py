@@ -14,6 +14,6 @@ def generar_fechas_temperaturas():
         db.guardar_temperatura(temperatura, fecha_str)  # Guarda en el sistema
         temperaturas_generadas.append((fecha_str, temperatura))
 
-    return temperaturas_generadas  # Devuelve la lista para imprimirla luego en main
+    return temperaturas_generadas, db  # Devuelve la lista para imprimirla luego en main
 
 generar_fechas_temperaturas()

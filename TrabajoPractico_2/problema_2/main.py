@@ -1,14 +1,12 @@
 from modules.temp import Temperaturas_DB
-from modules.temp import Temperaturas_DB
 
 from modules.aleatorios import generar_fechas_temperaturas
 
 # Genera y muestra temperaturas
-temperaturas = generar_fechas_temperaturas()
+temperaturas , db= generar_fechas_temperaturas()
 print("Fechas y temperaturas generadas:")
 for fecha, temp in temperaturas:
     print(f"Fecha: {fecha}, Temperatura: {temp}°C")
-
 
 def menu():
     print("\nMenú de opciones:")
@@ -23,8 +21,6 @@ def menu():
     print("9. Salir")
 
 def main():
-    db = Temperaturas_DB()
-    
     while True:
         menu()
         opcion = input("Seleccione una opción: ")
