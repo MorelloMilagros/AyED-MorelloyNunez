@@ -17,6 +17,7 @@ class Paciente:
         self.__apellido = apellidos[randint(0, n-1)]
         self.__riesgo = choices(niveles_de_riesgo, probabilidades)[0]
         self.__descripcion = descripciones_de_riesgo[self.__riesgo-1]
+        self.orden_llegada = None  # Nuevo atributo para el orden de llegada
 
     def get_nombre(self):
         return self.__nombre
@@ -35,4 +36,4 @@ class Paciente:
         cad += self.__apellido + '\t -> '
         cad += str(self.__riesgo) + '-' + self.__descripcion
         return cad
-        
+           
