@@ -19,7 +19,7 @@ class MonticuloBinario:
     def tam(self, value):
         self.__tam = value
 
-    def __infiltArriba(self, i):
+    def infilt_arriba(self, i):
         while i // 2 > 0:
             if self.lis_mon[i] < self.lis_mon[i // 2]:
                 # Intercambia el valor con el padre si es menor
@@ -31,11 +31,11 @@ class MonticuloBinario:
     def insertar(self, k):
         self.lis_mon.append(k)  # Añade el nuevo elemento al final
         self.tam += 1
-        self.__infiltArriba(self.tam)  # Ajusta el montículo hacia arriba
+        self.infilt_arriba(self.tam)  # Ajusta el montículo hacia arriba
 
-    def __infiltAbajo(self, i):
+    def infilt_abajo(self, i):
         while (i * 2) <= self.tam:
-            hm = self.__hijoMin(i)  # Encuentra el hijo mínimo
+            hm = self.__hijo_min(i)  # Encuentra el hijo mínimo
             if self.lis_mon[i] > self.lis_mon[hm]:
                 # Intercambia el valor con el hijo mínimo si es mayor
                 tmp = self.lis_mon[i]
@@ -43,7 +43,7 @@ class MonticuloBinario:
                 self.lis_mon[hm] = tmp
             i = hm  # Mueve el índice al hijo mínimo
 
-    def __hijoMin(self, i):
+    def __hijo_min(self, i):
         if i * 2 + 1 > self.tam:
             return i * 2
         else:
@@ -52,18 +52,18 @@ class MonticuloBinario:
             else:
                 return i * 2 + 1
 
-    def eliminarMin(self):
+    def eliminar_min(self):
         valorSacado = self.lis_mon[1]  # El mínimo es el primer elemento
         self.lis_mon[1] = self.lis_mon[self.tam]
         self.tam -= 1
         self.lis_mon.pop()
-        self.__infiltAbajo(1)  # Ajusta el montículo hacia abajo
+        self.infilt_abajo(1)  # Ajusta el montículo hacia abajo
         return valorSacado
 
-    def construirMonticulo(self, unaLista):
+    def construir_monticulo(self, unaLista):
         i = len(unaLista) // 2
         self.tam = len(unaLista)
         self.lis_mon = [0] + unaLista[:]
         while i > 0:
-            self.__infiltAbajo(i)
+            self.infilt_abajo(i)
             i -= 1
