@@ -1,21 +1,21 @@
 class Vertice:
     def __init__(self, clave):
         self.__id = clave
-        self.__conectadoA = {}
+        self.__conectado_a = {}
         self.__distancia = float('inf')
         self.__predecesor = None
 
     def agregar_vecino(self, vecino, ponderacion=0):
-        self.__conectadoA[vecino] = ponderacion
+        self.__conectado_a[vecino] = ponderacion
 
     def obtener_id(self):
         return self.__id
 
     def obtener_conexiones(self):
-        return self.__conectadoA.keys()
+        return self.__conectado_a.keys()
 
     def obtener_ponderacion(self, vecino):
-        return self.__conectadoA[vecino]
+        return self.__conectado_a[vecino]
 
     # Métodos para manejar la distancia
     def asignar_distancia(self, distancia):
@@ -36,28 +36,28 @@ class Vertice:
 
 class Grafo:
     def __init__(self):
-        self.__listaVertices = {}
-        self.__numVertices = 0
+        self.__lista_vertices = {}
+        self.__num_vertices = 0
 
     def agregar_vertice(self, clave):
-        nuevoVertice = Vertice(clave)
-        self.__listaVertices[clave] = nuevoVertice
-        self.__numVertices += 1
-        return nuevoVertice
+        nuevo_vertice = Vertice(clave)
+        self.__lista_vertices[clave] = nuevo_vertice
+        self.__num_vertices += 1
+        return nuevo_vertice
 
     def obtener_vertice(self, clave):
-        return self.__listaVertices.get(clave, None)
+        return self.__lista_vertices.get(clave, None)
 
     def agregar_arista(self, de, a, costo=0):
-        if de not in self.__listaVertices:
+        if de not in self.__lista_vertices:
             self.agregar_vertice(de)
-        if a not in self.__listaVertices:
+        if a not in self.__lista_vertices:
             self.agregar_vertice(a)
-        self.__listaVertices[de].agregar_vecino(self.__listaVertices[a], costo)
-        self.__listaVertices[a].agregar_vecino(self.__listaVertices[de], costo)  # Para grafo no dirigido
+        self.__lista_vertices[de].agregar_vecino(self.__lista_vertices[a], costo)
+        self.__lista_vertices[a].agregar_vecino(self.__lista_vertices[de], costo)  # Para grafo no dirigido
 
     def obtener_vertices(self):
-        return self.__listaVertices.keys()
+        return self.__lista_vertices.keys()
 
     def __iter__(self):
-        return iter(self.__listaVertices.values())
+        return iter(self.__lista_vertices.values())

@@ -17,6 +17,7 @@ def prim(G, inicio):
                 vertice_siguiente.asignar_predecesor(vertice_actual)
                 vertice_siguiente.asignar_distancia(nuevo_costo)
                 cp.decrementar_clave(vertice_siguiente, nuevo_costo)
+    return G
 
 
 
