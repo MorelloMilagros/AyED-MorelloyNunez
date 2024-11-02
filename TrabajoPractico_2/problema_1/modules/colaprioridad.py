@@ -1,4 +1,4 @@
-from monticulo import MonticuloMin
+from modules.monticulo import MonticuloMin
 
 class Cola_De_Prioridad:
     def __init__(self):
